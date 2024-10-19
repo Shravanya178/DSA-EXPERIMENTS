@@ -1,0 +1,117 @@
+#include <stdio.h>
+void mergeSort(int arr[], int l, int r);
+void quickSort(int arr[], int low, int high);
+void displayArray(int arr[], int n);
+void merge(int arr[], int l, int m, int r);
+int partition(int arr[], int low, int high);
+
+// Merge Sort function
+void mergeSort(int arr[], int l, int r) {
+if (l &lt; r) {
+int m = l + (r - l) / 2; // Middle point
+mergeSort(arr, l, m); // Sort first half
+mergeSort(arr, m + 1, r); // Sort second half
+merge(arr, l, m, r); // Merge the two halves
+}
+}
+void merge(int arr[], int l, int m, int r) {
+int i, j, k;
+int n1 = m - l + 1;
+int n2 = r - m;
+int L[n1], R[n2];
+for (i = 0; i &lt; n1; i++)
+L[i] = arr[l + i];
+for (j = 0; j &lt; n2; j++)
+R[j] = arr[m + 1 + j];
+
+i = 0;
+
+j = 0;
+k = l;
+while (i &lt; n1 &amp;&amp; j &lt; n2) {
+if (L[i] &lt;= R[j]) {
+arr[k] = L[i];
+i++;
+} else {
+arr[k] = R[j];
+j++;
+}
+k++;
+}
+while (i &lt; n1) {
+arr[k] = L[i];
+i++;
+k++;
+}
+while (j &lt; n2) {
+arr[k] = R[j];
+j++;
+k++;
+}
+}
+// Quick Sort function
+void quickSort(int arr[], int low, int high) {
+if (low &lt; high) {
+int pi = partition(arr, low, high);
+quickSort(arr, low, pi - 1);
+quickSort(arr, pi + 1, high);
+
+}
+}
+int partition(int arr[], int low, int high) {
+int pivot = arr[high];
+int i = (low - 1);
+
+for (int j = low; j &lt;= high - 1; j++) {
+if (arr[j] &lt;= pivot) {
+i++;
+int temp = arr[i];
+arr[i] = arr[j];
+arr[j] = temp;
+}
+}
+// Swap arr[i + 1] and arr[high] (or pivot)
+int temp = arr[i + 1];
+arr[i + 1] = arr[high];
+arr[high] = temp;
+return (i + 1);
+}
+void displayArray(int arr[], int n) {
+for (int i = 0; i &lt; n; i++) {
+printf(&quot;%d &quot;, arr[i]);
+}
+printf(&quot;\n&quot;);
+}
+int main() {
+int arr[100], n, choice;
+
+printf(&quot;Enter the number of elements in the array: &quot;);
+scanf(&quot;%d&quot;, &amp;n);
+printf(&quot;Enter the elements of the array: &quot;);
+for (int i = 0; i &lt; n; i++) {
+scanf(&quot;%d&quot;, &amp;arr[i]); }
+while (1) {
+printf(&quot;\nMenu:\n&quot;);
+printf(&quot;1. Merge Sort\n&quot;);
+printf(&quot;2. Quick Sort\n&quot;);
+printf(&quot;3. Exit\n&quot;);
+printf(&quot;Enter your choice: &quot;);
+scanf(&quot;%d&quot;, &amp;choice);
+switch (choice) {
+case 1:
+mergeSort(arr, 0, n - 1);
+printf(&quot;Array after Merge Sort: &quot;);
+displayArray(arr, n);
+break;
+case 2:
+quickSort(arr, 0, n - 1);
+printf(&quot;Array after Quick Sort: &quot;);
+displayArray(arr, n);
+break;
+case 3:
+printf(&quot;Exiting...\n&quot;);
+return 0;
+default:
+printf(&quot;Invalid choice, please try again.\n&quot;); }}
+return 0;
+}
